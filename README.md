@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>수학문제 제작 AI</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js=ver123"></script>
   </head>
   <body>
     <h1>수학문제 제작 AI</h1>
