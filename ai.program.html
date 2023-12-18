@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>수학문제 제작 AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <h1>수학문제 제작 AI</h1>
+    <label for="api_key">API 키:</label>
+    <input type="text" id="api_key" name="api_key" required /><br /><br />
+    <label for="keywords">난이도:</label>
+    <input type="text" id="keywords" name="keywords" required /><br /><br />
+    <label for="keyword">관심있는 주제:</label>
+    <input type="text" id="keyword" name="keyword" required />
+
+    <button onclick="search()">문제 만들기</button>
+    <br /><br />
+    <div id="result"></div>
+    <script>
+      function search() {
+        const api_key =
+          document.getElementById('api_key').value
+        const keywords = document.getElementById('keywords').value
+        const keyword = document.getElementById('keyword').value
+        const messages = [
+          { role: 'system', content: 'You are a helpful assistant.' },
+          { role: 'user', content: keywords + '정도 난이도이고'+ keyword + '와 관련있는 모의고사 응용 미분또는 적분 문제1개와 답을 만들어줘.' },
+        ]
+        const config = {
+          headers: {
+            Authorization: `Bearer ${api_key}`,
+            'Content-Type': 'application/json',
+          },
+        }
+        const data = {
+          model: 'gpt-3.5-turbo',
+          temperature: 0.5,
+          n: 1,
+          messages: messages,
+        }
+        axios
+          .post('https://api.openai.com/v1/chat/completions', data, config)
+          .then(function (response) {
+            let resultDiv = document.getElementById('result')
+            resultDiv.innerHTML = ''
+            response.data.choices.forEach(function (choice, index) {
+              resultDiv.innerHTML += `<div>${choice.message.content
+                .split('\n')
+                .join('<br/>')}</div>`
+            })
+          })
+          .catch(function (error) {
+            console.error(error)
+          })
+      }
+    </script>
+  </body>
+</html>
